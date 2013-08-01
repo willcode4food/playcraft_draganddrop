@@ -315,6 +315,19 @@ pc.Input = pc.Base('pc.Input',
                         else
                             er = obj.getScreenRect ? obj.getScreenRect() : null;                 
                         
+                        /**
+                         * Had to implement a way to detect whether the input class has an entity in the process of being dragged
+                         * In order for the dragging to be completely smooth, we need to prevent the input class from checkin if the point is within the bounds
+                         * of the spatial component.  This is only the case for drag and drop (that I am aware of)
+                         * 
+                         * The best method I came up with for now is to check the entity for the tag 'dragging.'  If this code ever makes it into the main trunk,
+                         * we can add a full on property to the entity.  But the goal was to be as little impact as possible while working within the current context
+                         * of an entity.
+                         *
+                         * If there is a better way to do this, please let me know.
+                         *
+                         */
+                         
                         //if (er && er.containsPoint(pos))                                                                                           
                         if (er && er.containsPoint(pos) || binding.uiTarget._entity.hasTag('dragging'))
                         {   
